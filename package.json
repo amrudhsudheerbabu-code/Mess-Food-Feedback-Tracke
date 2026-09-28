@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/amrudhsudheerbabu-code/Mess-Food-Feedback-Tracke/issues"
   },
-  "homepage": "https://github.com/amrudhsudheerbabu-code/Mess-Food-Feedback-Tracke#readme"
+  "homepage": "https://github.com/amrudhsudheerbabu-code/Mess-Food-Feedback-Tracke#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
