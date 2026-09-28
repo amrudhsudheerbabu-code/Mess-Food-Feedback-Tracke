@@ -1,6 +1,7 @@
 const express = require("express");
 
 const app = express();
+const feedback = [];
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -10,6 +11,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use(express.static("public"));
+
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
