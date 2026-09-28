@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,9 @@
   "homepage": "https://github.com/amrudhsudheerbabu-code/Mess-Food-Feedback-Tracke#readme",
   "dependencies": {
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0"
   }
 }
