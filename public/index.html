@@ -3,54 +3,213 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Mess Food Feedback Tracker</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+    }
+
+    .form-box,
+    .feedback-box {
+      background: white;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    .feedback-item {
+      border-top: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .feedback-item:first-child {
+      border-top: none;
+    }
+
+    .feedback-item h3 {
+      margin-bottom: 5px;
+    }
+
+    .rating {
+      font-weight: bold;
+    }
+
+    .empty-message {
+      color: #666;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #666;
+    }
+  </style>
 </head>
+
 <body>
+
   <h1>Mess Food Feedback Tracker</h1>
 
-  <p>Rate your mess food and share your feedback.</p>
+  <p class="subtitle">
+    Rate your mess food and share your feedback.
+  </p>
 
-  <form method="POST" action="/feedback">
-    <label>
-      Student Name:
-      <input type="text" name="student" required>
-    </label>
+  <!-- Feedback Form -->
+  <div class="form-box">
 
-    <br><br>
+    <form method="POST" action="/feedback">
 
-    <label>
-      Meal:
-      <select name="meal" required>
+      <label for="student">Student Name:</label>
+
+      <input
+        type="text"
+        id="student"
+        name="student"
+        required
+      >
+
+      <label for="meal">Meal:</label>
+
+      <select id="meal" name="meal" required>
         <option value="breakfast">Breakfast</option>
         <option value="lunch">Lunch</option>
         <option value="dinner">Dinner</option>
       </select>
-    </label>
 
-    <br><br>
+      <label for="rating">Rating:</label>
 
-    <label>
-      Rating:
-      <select name="rating" required>
+      <select id="rating" name="rating" required>
         <option value="1">1 - Poor</option>
         <option value="2">2 - Fair</option>
         <option value="3">3 - Average</option>
         <option value="4">4 - Good</option>
         <option value="5">5 - Excellent</option>
       </select>
-    </label>
 
-    <br><br>
+      <label for="comment">Feedback:</label>
 
-    <label>
-      Feedback:
-      <br>
-      <textarea name="comment" rows="5" required></textarea>
-    </label>
+      <textarea
+        id="comment"
+        name="comment"
+        rows="5"
+        required
+      ></textarea>
 
-    <br><br>
+      <button type="submit">
+        Submit Feedback
+      </button>
 
-    <button type="submit">Submit Feedback</button>
-  </form>
+    </form>
+
+  </div>
+
+  <!-- Submitted Feedback -->
+  <div class="feedback-box">
+
+    <h2>Submitted Feedback</h2>
+
+    <div id="feedbackList">
+      <p class="empty-message">Loading feedback...</p>
+    </div>
+
+  </div>
+
+  <footer>
+    Mess Food Feedback Tracker
+  </footer>
+
+  <script>
+    async function loadFeedback() {
+      const feedbackList = document.getElementById("feedbackList");
+
+      try {
+        const response = await fetch("/api/feedback");
+
+        if (!response.ok) {
+          throw new Error("Failed to load feedback");
+        }
+
+        const feedback = await response.json();
+
+        feedbackList.innerHTML = "";
+
+        if (feedback.length === 0) {
+          const message = document.createElement("p");
+          message.className = "empty-message";
+          message.textContent = "No feedback submitted yet.";
+          feedbackList.appendChild(message);
+          return;
+        }
+
+        feedback.forEach((item) => {
+          const container = document.createElement("div");
+          container.className = "feedback-item";
+
+          const title = document.createElement("h3");
+          title.textContent = item.student;
+
+          const meal = document.createElement("p");
+          meal.textContent =
+            "Meal: " + item.meal.charAt(0).toUpperCase() + item.meal.slice(1);
+
+          const rating = document.createElement("p");
+          rating.className = "rating";
+          rating.textContent = "Rating: " + item.rating + "/5";
+
+          const comment = document.createElement("p");
+          comment.textContent = "Feedback: " + item.comment;
+
+          container.appendChild(title);
+          container.appendChild(meal);
+          container.appendChild(rating);
+          container.appendChild(comment);
+
+          feedbackList.appendChild(container);
+        });
+
+      } catch (error) {
+        feedbackList.innerHTML =
+          "<p>Unable to load feedback.</p>";
+      }
+    }
+
+    loadFeedback();
+  </script>
+
 </body>
 </html>
