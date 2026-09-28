@@ -9,11 +9,10 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+app.use(express.static("public"));
+
 app.get("/", (req, res) => {
-  res.send(`
-    <h1>Mess Food Feedback Tracker</h1>
-    <p>Application is running.</p>
-  `);
+  res.sendFile(__dirname + "/public/index.html");
 });
 
-module.exports = app;
+module.exports = app;   
