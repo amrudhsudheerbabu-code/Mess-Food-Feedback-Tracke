@@ -40,9 +40,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Build Docker image
         run: docker build -t mess-food-feedback-tracker .
+
+      - name: Run Docker container
+        run: |
+          docker run -d --name mess-food-feedback-tracker-container -p 3000:3000 mess-food-feedback-tracker
+          sleep 5
+
+      - name: Check Docker health endpoint
+        run: curl -f http://localhost:3000/health
+
+      - name: Stop Docker container
+        if: always()
+        run: docker stop mess-food-feedback-tracker-container || true
 
   deploy:
     name: Deploy
