@@ -10,7 +10,19 @@ app.use(express.static("public"));
 
 // Home page
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+  const fs = require("fs");
+
+  const filePath = __dirname + "/public/index.html";
+  let html = fs.readFileSync(filePath, "utf8");
+
+  const commitId =
+  process.env.RENDER_GIT_COMMIT ||
+  process.env.COMMIT_ID ||
+  "local";
+
+  html = html.replaceAll("__COMMIT_ID__", commitId);
+
+  res.send(html);
 });
 
 // Submit feedback
