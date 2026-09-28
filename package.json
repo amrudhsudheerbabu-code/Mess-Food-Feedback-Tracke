@@ -1,17 +1,23 @@
 {
   "name": "mess-food-feedback-tracke",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A web application for collecting and tracking mess food feedback.",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "test": "node --test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amrudhsudheerbabu-code/Mess-Food-Feedback-Tracke.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "cloud-computing",
+    "devops",
+    "express",
+    "feedback"
+  ],
+  "author": "Amrudh Sudheer Babu",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
