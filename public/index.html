@@ -7,6 +7,50 @@
 </head>
 <body>
   <h1>Mess Food Feedback Tracker</h1>
+
   <p>Rate your mess food and share your feedback.</p>
+
+  <form method="POST" action="/feedback">
+    <label>
+      Student Name:
+      <input type="text" name="student" required>
+    </label>
+
+    <br><br>
+
+    <label>
+      Meal:
+      <select name="meal" required>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+      </select>
+    </label>
+
+    <br><br>
+
+    <label>
+      Rating:
+      <select name="rating" required>
+        <option value="1">1 - Poor</option>
+        <option value="2">2 - Fair</option>
+        <option value="3">3 - Average</option>
+        <option value="4">4 - Good</option>
+        <option value="5">5 - Excellent</option>
+      </select>
+    </label>
+
+    <br><br>
+
+    <label>
+      Feedback:
+      <br>
+      <textarea name="comment" rows="5" required></textarea>
+    </label>
+
+    <br><br>
+
+    <button type="submit">Submit Feedback</button>
+  </form>
 </body>
 </html>
