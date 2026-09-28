@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("fs");
 
 const app = express();
 
@@ -6,24 +7,24 @@ const feedback = [];
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
 
 // Home page
 app.get("/", (req, res) => {
-  const fs = require("fs");
-
   const filePath = __dirname + "/public/index.html";
   let html = fs.readFileSync(filePath, "utf8");
 
   const commitId =
-  process.env.RENDER_GIT_COMMIT ||
-  process.env.COMMIT_ID ||
-  "local";
+    process.env.RENDER_GIT_COMMIT ||
+    process.env.COMMIT_ID ||
+    "local";
 
   html = html.replaceAll("__COMMIT_ID__", commitId);
 
   res.send(html);
 });
+
+// Serve other static files
+app.use(express.static("public"));
 
 // Submit feedback
 app.post("/feedback", (req, res) => {
@@ -72,4 +73,4 @@ app.get("/health", (req, res) => {
   });
 });
 
-module.exports = app
+module.exports = app;
