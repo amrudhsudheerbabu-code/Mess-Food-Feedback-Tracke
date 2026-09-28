@@ -1,0 +1,66 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t mess-food-feedback-tracker .
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs:
+      - lint-and-test
+      - build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deployment placeholder
+        run: echo "Deployment will be configured after Render setup."
+
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Verification placeholder
+        run: echo "Live health check will be configured after deployment."
