@@ -65,12 +65,11 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-     - name: Trigger Render deployment
-  run: |
-    curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+      - name: Trigger Render deployment
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
 
-- name: Wait for Render deployment
-  run: sleep 30
+      - name: Wait for Render deployment
+        run: sleep 30
 
   verify:
     name: Verify
